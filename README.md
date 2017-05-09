@@ -29,7 +29,7 @@ import FAB from 'react-native-fab'
 | buttonColor | string | The color of FAB | red |
 | onClickAction | function | Function to be called when button is pressed | ()=>{} |
 | iconTextColor | color | The  color of icon of FAB | #FFFFFF |
-| iconTextComponent | component | Text component or any other component based on it, works great with Icon from react-native-vector-icons | <Text>+</Text> |
+| iconTextComponent | component | Text component or any other component based on it, works great with Icon from react-native-vector-icons | `<Text>+</Text>` |
 
 ##Note
 
