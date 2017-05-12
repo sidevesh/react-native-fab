@@ -9,6 +9,8 @@ import {
   Animated,
   Easing,
 } from 'react-native';
+import { Touchable } from './src';
+import { noop } from './src/utils';
 
 const sharpEasingValues = {
   entry: Easing.bezier(0.0, 0.0, 0.2, 1),
@@ -64,7 +66,7 @@ export default class FAB extends Component {
   static defaultProps = {
     buttonColor: 'red',
     iconTextColor: '#FFFFFF',
-    onClickAction: () => {},
+    onClickAction: noop,
     iconTextComponent: <Text>+</Text>,
     visible: true,
   };
@@ -130,85 +132,38 @@ export default class FAB extends Component {
       outputRange: ['-90deg', '0deg'],
     });
 
-    if (Platform.OS === 'ios') {
-      return (
-        <View style={styles.fab_box}>
-          <Animated.View
-            style={[
-              styles.addButton, {
-                height: dimensionInterpolate,
-                width: dimensionInterpolate,
-              },
-            ]}
+    return (
+      <View style={styles.fab_box}>
+        <Animated.View
+          style={[
+            styles.addButton, {
+              height: dimensionInterpolate,
+              width: dimensionInterpolate,
+            },
+          ]}
+        >
+          <Touchable
+            onPress={onClickAction}
+            style={styles.addButtonInnerView}
+            buttonColor={buttonColor}
           >
-            <TouchableOpacity
-              onPress={() => { onClickAction(); }}
-              style={[
-                styles.addButtonInnerView, {
-                  backgroundColor: buttonColor,
-                },
-              ]}
+            <Animated.Text
+              style={{
+                transform: [
+                { scaleX: translateValue },
+                { rotate: rotateInterpolate },
+                ],
+                fontSize: 24,
+              }}
             >
-              <Animated.Text
-                style={{
-                  transform: [
-                    { scale: translateValue },
-                    { rotate: rotateInterpolate },
-                  ],
-                  fontSize: 24,
-                }}
-              >
-                {React.cloneElement(iconTextComponent, { style: {
-                  fontSize: 24,
-                  color: iconTextColor,
-                } })}
-              </Animated.Text>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
-      );
-    } else if (Platform.OS === 'android') {
-      return (
-        <View style={styles.fab_box}>
-          <Animated.View
-            style={[
-              styles.addButton,
-              {
-                height: dimensionInterpolate,
-                width: dimensionInterpolate,
-              },
-            ]}
-          >
-            <TouchableNativeFeedback
-              background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-              onPress={() => { onClickAction(); }}
-            >
-              <View
-                style={[
-                  styles.addButtonInnerView, {
-                    backgroundColor: buttonColor,
-                  },
-                ]}
-              >
-                <Animated.Text
-                  style={{
-                    transform: [
-                    { scaleX: translateValue },
-                    { rotate: rotateInterpolate },
-                    ],
-                    fontSize: 24,
-                  }}
-                >
-                  {React.cloneElement(iconTextComponent, { style: {
-                    fontSize: 24,
-                    color: iconTextColor,
-                  } })}
-                </Animated.Text>
-              </View>
-            </TouchableNativeFeedback>
-          </Animated.View>
-        </View>
-      );
-    }
+              {React.cloneElement(iconTextComponent, { style: {
+                fontSize: 24,
+                color: iconTextColor,
+              }})}
+            </Animated.Text>
+          </Touchable>
+        </Animated.View>
+      </View>
+    );
   }
 }
