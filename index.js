@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   Platform,
@@ -22,16 +22,87 @@ const duration_values = {
   exit: 195
 }
 
-class FAB extends Component {
+export default class FAB extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      translateValue: new Animated.Value(0)
-    };
+  static propTypes = {
+    buttonColor: PropTypes.string,
+    iconTextColor: PropTypes.string,
+    onClickAction: PropTypes.func,
+    iconTextComponent: PropTypes.element,
+    visible: PropTypes.bool
+  }
+
+  static defaultProps = {
+    buttonColor: 'red',
+    iconTextColor: '#FFFFFF',
+    onClickAction: ()=>{},
+    iconTextComponent: <Text>+</Text>,
+    visible: true
+  };
+
+  state = {
+    translateValue: new Animated.Value(0)
+  };
+
+  componentDidMount() {
+    const { translateValue } = this.state;
+    const { visible } = this.props;
+
+    if(visible) {
+      translateValue.setValue(1);
+    }
+    else {
+      translateValue.setValue(0);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { translateValue } = this.state;
+    const { visible } = this.props;
+
+    if((nextProps.visible)&&(!visible)) {
+      Animated.timing(
+        translateValue,
+        {
+          duration: duration_values.entry,
+          toValue: 1,
+          easing: sharp_easing_values.entry
+        }
+      ).start();
+    }
+    else if((!nextProps.visible)&&(visible)) {
+      Animated.timing(
+        translateValue,
+        {
+          duration: duration_values.exit,
+          toValue: 0,
+          easing: sharp_easing_values.exit
+        }
+      ).start();
+    }
   }
 
   render() {
+    const {
+      translateValue,
+    } = this.state;
+    const {
+      onClickAction,
+      buttonColor,
+      iconTextComponent,
+      iconTextColor,
+    } = this.props;
+
+    const dimensionInterpolate = translateValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 56],
+    });
+
+    const rotateInterpolate = translateValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['-90deg', '0deg'],
+    });
+
     if(Platform.OS==='ios') {
       return (
         <View style={styles.fab_box}>
@@ -39,26 +110,22 @@ class FAB extends Component {
             style={[
               styles.addButton,
               {
-                height: this.state.translateValue.interpolate({inputRange: [0, 1], outputRange: [0, 56]}),
-                width: this.state.translateValue.interpolate({inputRange: [0, 1], outputRange: [0, 56]})
+                height: dimensionInterpolate,
+                width: dimensionInterpolate
               }
             ]}
           >
-            <TouchableOpacity onPress={()=>{this.props.onClickAction()}} style={[styles.addButtonInnerView, {backgroundColor: this.props.buttonColor}]}>
+            <TouchableOpacity onPress={()=>{onClickAction()}} style={[styles.addButtonInnerView, {backgroundColor: buttonColor}]}>
               <Animated.Text style={{
                 transform: [
-                  {scaleX: this.state.translateValue}, 
-                  {scaleY: this.state.translateValue},
-                  {rotate: this.state.translateValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['-90deg', '0deg']
-                  })}
+                  {scale: translateValue},
+                  {rotate: rotateInterpolate}
                 ],
                 fontSize: 24
               }}>
-                {React.cloneElement(this.props.iconTextComponent, {style: {
+                {React.cloneElement(iconTextComponent, {style: {
                   fontSize: 24,
-                  color: this.props.iconTextColor
+                  color: iconTextColor
                 }})}
               </Animated.Text>
             </TouchableOpacity>
@@ -73,27 +140,23 @@ class FAB extends Component {
             style={[
               styles.addButton,
               {
-                height: this.state.translateValue.interpolate({inputRange: [0, 1], outputRange: [0, 56]}),
-                width: this.state.translateValue.interpolate({inputRange: [0, 1], outputRange: [0, 56]})
+                height: dimensionInterpolate,
+                width: dimensionInterpolate
               }
             ]}
           >
-            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackgroundBorderless()} onPress={()=>{this.props.onClickAction()}}>
-              <View style={[styles.addButtonInnerView, {backgroundColor: this.props.buttonColor}]}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackgroundBorderless()} onPress={()=>{onClickAction()}}>
+              <View style={[styles.addButtonInnerView, {backgroundColor: buttonColor}]}>
                 <Animated.Text style={{
                   transform: [
-                    {scaleX: this.state.translateValue}, 
-                    {scaleY: this.state.translateValue},
-                    {rotate: this.state.translateValue.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['-90deg', '0deg']
-                    })}
+                    {scaleX: translateValue},
+                    {rotate: rotateInterpolate}
                   ],
                   fontSize: 24
                 }}>
-                  {React.cloneElement(this.props.iconTextComponent, {style: {
+                  {React.cloneElement(iconTextComponent, {style: {
                     fontSize: 24,
-                    color: this.props.iconTextColor
+                    color: iconTextColor
                   }})}
                 </Animated.Text>
               </View>
@@ -103,48 +166,7 @@ class FAB extends Component {
       ); 
     }
   }
-
-  componentDidMount() {
-    if(this.props.visible) {
-      this.state.translateValue.setValue(1);
-    }
-    else {
-      this.state.translateValue.setValue(0);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if((nextProps.visible)&&(!this.props.visible)) {
-      Animated.timing(
-        this.state.translateValue,
-        {
-          duration: duration_values.entry,
-          toValue: 1,
-          easing: sharp_easing_values.entry
-        }
-      ).start();
-    }
-    else if((!nextProps.visible)&&(this.props.visible)) {
-      Animated.timing(
-        this.state.translateValue,
-        {
-          duration: duration_values.exit,
-          toValue: 0,
-          easing: sharp_easing_values.exit
-        }
-      ).start();
-    }
-  }
-
 }
-
-FAB.defaultProps = {
-  buttonColor: 'red',
-  iconTextColor: '#FFFFFF',
-  onClickAction: ()=>{},
-  iconTextComponent: <Text>+</Text>,
-  visible: true
-};
 
 const styles = StyleSheet.create({
   addButton: {
@@ -176,13 +198,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
-export default FAB;
-
-FAB.propTypes = {
-  buttonColor: React.PropTypes.string,
-  iconTextColor: React.PropTypes.string,
-  onClickAction: React.PropTypes.func,
-  iconTextComponent: React.PropTypes.element,
-  visible: React.PropTypes.bool
-}
