@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
@@ -9,18 +7,49 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
   Animated,
-  Easing
+  Easing,
 } from 'react-native';
 
-const sharp_easing_values = {
+const sharpEasingValues = {
   entry: Easing.bezier(0.0, 0.0, 0.2, 1),
-  exit: Easing.bezier(0.4, 0.0, 0.6, 1)
-}
+  exit: Easing.bezier(0.4, 0.0, 0.6, 1),
+};
 
-const duration_values = {
+const durationValues = {
   entry: 225,
-  exit: 195
-}
+  exit: 195,
+};
+
+const styles = StyleSheet.create({
+  addButton: {
+    borderRadius: 50,
+    alignItems: 'stretch',
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
+    elevation: 2,
+  },
+  fab_box: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    height: 56,
+    width: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+  },
+  addButtonInnerView: {
+    flex: 1,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default class FAB extends Component {
 
@@ -29,29 +58,28 @@ export default class FAB extends Component {
     iconTextColor: PropTypes.string,
     onClickAction: PropTypes.func,
     iconTextComponent: PropTypes.element,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
   }
 
   static defaultProps = {
     buttonColor: 'red',
     iconTextColor: '#FFFFFF',
-    onClickAction: ()=>{},
+    onClickAction: () => {},
     iconTextComponent: <Text>+</Text>,
-    visible: true
+    visible: true,
   };
 
   state = {
-    translateValue: new Animated.Value(0)
+    translateValue: new Animated.Value(0),
   };
 
   componentDidMount() {
     const { translateValue } = this.state;
     const { visible } = this.props;
 
-    if(visible) {
+    if (visible) {
       translateValue.setValue(1);
-    }
-    else {
+    } else {
       translateValue.setValue(0);
     }
   }
@@ -60,24 +88,23 @@ export default class FAB extends Component {
     const { translateValue } = this.state;
     const { visible } = this.props;
 
-    if((nextProps.visible)&&(!visible)) {
+    if ((nextProps.visible) && (!visible)) {
       Animated.timing(
         translateValue,
         {
-          duration: duration_values.entry,
+          duration: durationValues.entry,
           toValue: 1,
-          easing: sharp_easing_values.entry
-        }
+          easing: sharpEasingValues.entry,
+        },
       ).start();
-    }
-    else if((!nextProps.visible)&&(visible)) {
+    } else if ((!nextProps.visible) && (visible)) {
       Animated.timing(
         translateValue,
         {
-          duration: duration_values.exit,
+          duration: durationValues.exit,
           toValue: 0,
-          easing: sharp_easing_values.exit
-        }
+          easing: sharpEasingValues.exit,
+        },
       ).start();
     }
   }
@@ -103,37 +130,44 @@ export default class FAB extends Component {
       outputRange: ['-90deg', '0deg'],
     });
 
-    if(Platform.OS==='ios') {
+    if (Platform.OS === 'ios') {
       return (
         <View style={styles.fab_box}>
           <Animated.View
             style={[
-              styles.addButton,
-              {
+              styles.addButton, {
                 height: dimensionInterpolate,
-                width: dimensionInterpolate
-              }
+                width: dimensionInterpolate,
+              },
             ]}
           >
-            <TouchableOpacity onPress={()=>{onClickAction()}} style={[styles.addButtonInnerView, {backgroundColor: buttonColor}]}>
-              <Animated.Text style={{
-                transform: [
-                  {scale: translateValue},
-                  {rotate: rotateInterpolate}
-                ],
-                fontSize: 24
-              }}>
-                {React.cloneElement(iconTextComponent, {style: {
+            <TouchableOpacity
+              onPress={() => { onClickAction(); }}
+              style={[
+                styles.addButtonInnerView, {
+                  backgroundColor: buttonColor,
+                },
+              ]}
+            >
+              <Animated.Text
+                style={{
+                  transform: [
+                    { scale: translateValue },
+                    { rotate: rotateInterpolate },
+                  ],
                   fontSize: 24,
-                  color: iconTextColor
-                }})}
+                }}
+              >
+                {React.cloneElement(iconTextComponent, { style: {
+                  fontSize: 24,
+                  color: iconTextColor,
+                } })}
               </Animated.Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
-      ); 
-    }
-    else if(Platform.OS==='android') {
+      );
+    } else if (Platform.OS === 'android') {
       return (
         <View style={styles.fab_box}>
           <Animated.View
@@ -141,60 +175,40 @@ export default class FAB extends Component {
               styles.addButton,
               {
                 height: dimensionInterpolate,
-                width: dimensionInterpolate
-              }
+                width: dimensionInterpolate,
+              },
             ]}
           >
-            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackgroundBorderless()} onPress={()=>{onClickAction()}}>
-              <View style={[styles.addButtonInnerView, {backgroundColor: buttonColor}]}>
-                <Animated.Text style={{
-                  transform: [
-                    {scaleX: translateValue},
-                    {rotate: rotateInterpolate}
-                  ],
-                  fontSize: 24
-                }}>
-                  {React.cloneElement(iconTextComponent, {style: {
+            <TouchableNativeFeedback
+              background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
+              onPress={() => { onClickAction(); }}
+            >
+              <View
+                style={[
+                  styles.addButtonInnerView, {
+                    backgroundColor: buttonColor,
+                  },
+                ]}
+              >
+                <Animated.Text
+                  style={{
+                    transform: [
+                    { scaleX: translateValue },
+                    { rotate: rotateInterpolate },
+                    ],
                     fontSize: 24,
-                    color: iconTextColor
-                  }})}
+                  }}
+                >
+                  {React.cloneElement(iconTextComponent, { style: {
+                    fontSize: 24,
+                    color: iconTextColor,
+                  } })}
                 </Animated.Text>
               </View>
             </TouchableNativeFeedback>
           </Animated.View>
         </View>
-      ); 
+      );
     }
   }
 }
-
-const styles = StyleSheet.create({
-  addButton: {
-    borderRadius: 50,
-    alignItems: 'stretch',
-    shadowColor: "#000000",
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 1,
-      width: 0
-    },
-    elevation: 2
-  },
-  fab_box: {
-    position: 'absolute',
-    bottom: 20,
-    right:20,
-    height: 56,
-    width: 56,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50
-  },
-  addButtonInnerView: {
-    flex: 1,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
