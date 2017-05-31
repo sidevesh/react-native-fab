@@ -6,12 +6,12 @@ import {
 } from 'react-native';
 import {
   IS_ANDROID,
-  IS_IOS,
+  IS_LT_LOLLIPOP,
   noop,
 } from './utils';
 
 const Touchable = ({ onPress, style, buttonColor, children }) => {
-  if (IS_ANDROID) {
+  if (IS_ANDROID && !IS_LT_LOLLIPOP) {
     return (
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
@@ -29,7 +29,7 @@ const Touchable = ({ onPress, style, buttonColor, children }) => {
       </TouchableNativeFeedback>
     );
   }
-  else if (IS_IOS) {
+  else {
     return (
       <TouchableOpacity
         onPress={onPress}

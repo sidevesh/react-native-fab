@@ -1,5 +1,10 @@
 import { Platform } from 'react-native';
 
-export const IS_ANDROID = Platform.OS === 'android';
-export const IS_IOS = Platform.OS === 'ios';
+const {
+  Version,
+  OS,
+} = Platform;
+
+export const IS_ANDROID = OS === 'android';
+export const IS_LT_LOLLIPOP = Version < 21;
 export const noop = () => {};
