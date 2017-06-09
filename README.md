@@ -2,6 +2,7 @@
 A FAB button component for Android and iOS, customizable, simple and as per material design specs.
 
 ![FAB demo](https://media.giphy.com/media/eUa3ywxwoBwwE/giphy.gif)
+![with snackbar](https://media.giphy.com/media/6oCCk98unakbC/giphy.gif)
 
 See [Google Material Design](https://material.io/guidelines/components/buttons-floating-action-button.html) for more info on FABs.
 
