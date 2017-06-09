@@ -22,6 +22,11 @@ const durationValues = {
   exit: 195,
 };
 
+const moveEasingValues = {
+  entry: Easing.bezier(0.0, 0.0, 0.2, 1),
+  exit: Easing.bezier(0.4, 0.0, 1, 1)
+}
+
 const styles = StyleSheet.create({
   addButton: {
     borderRadius: 50,
@@ -61,6 +66,7 @@ export default class FAB extends Component {
     onClickAction: PropTypes.func,
     iconTextComponent: PropTypes.element,
     visible: PropTypes.bool,
+    snackOffset: PropTypes.number
   }
 
   static defaultProps = {
@@ -69,25 +75,34 @@ export default class FAB extends Component {
     onClickAction: noop,
     iconTextComponent: <Text>+</Text>,
     visible: true,
+    snackOffset: 0
   };
 
   state = {
     translateValue: new Animated.Value(0),
+    shiftValue: new Animated.Value(0)
   };
 
   componentDidMount() {
-    const { translateValue } = this.state;
-    const { visible } = this.props;
+    const { translateValue, shiftValue } = this.state;
+    const { visible, snackOffset } = this.props;
 
     if (visible) {
       translateValue.setValue(1);
-    } else {
+    }
+    else {
       translateValue.setValue(0);
+    }
+    if (snackOffset===0) {
+      shiftValue.setValue(20);
+    }
+    else {
+      shiftValue.setValue(20+snackOffset);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { translateValue } = this.state;
+    const { translateValue, shiftValue } = this.state;
     const { visible } = this.props;
 
     if ((nextProps.visible) && (!visible)) {
@@ -99,7 +114,8 @@ export default class FAB extends Component {
           easing: sharpEasingValues.entry,
         },
       ).start();
-    } else if ((!nextProps.visible) && (visible)) {
+    }
+    else if ((!nextProps.visible) && (visible)) {
       Animated.timing(
         translateValue,
         {
@@ -109,17 +125,40 @@ export default class FAB extends Component {
         },
       ).start();
     }
+    if(nextProps.snackOffset!==this.props.snackOffset) {
+      if(nextProps.snackOffset===0) {
+        Animated.timing(
+          shiftValue,
+          {
+            duration: durationValues.exit,
+            toValue: 20,
+            easing: moveEasingValues.exit,    
+          }
+        ).start();
+      }
+      else if(nextProps.snackOffset!==0) {
+        Animated.timing(
+          shiftValue,
+          {
+            duration: durationValues.entry,
+            toValue: 20+nextProps.snackOffset,
+            easing: moveEasingValues.entry,    
+          }
+        ).start();
+      }
+    }
   }
 
   render() {
     const {
-      translateValue,
+      translateValue, shiftValue
     } = this.state;
     const {
       onClickAction,
       buttonColor,
       iconTextComponent,
       iconTextColor,
+      snackOffset
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
@@ -133,7 +172,7 @@ export default class FAB extends Component {
     });
 
     return (
-      <View style={styles.fab_box}>
+      <Animated.View style={[styles.fab_box, {bottom: shiftValue}]}>
         <Animated.View
           style={[
             styles.addButton, {
@@ -163,7 +202,8 @@ export default class FAB extends Component {
             </Animated.Text>
           </Touchable>
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   }
 }
+
