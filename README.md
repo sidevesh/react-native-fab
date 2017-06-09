@@ -30,6 +30,7 @@ import FAB from 'react-native-fab'
 | onClickAction | function | Function to be called when button is pressed | ()=>{} |
 | iconTextColor | color | The  color of icon of FAB | #FFFFFF |
 | iconTextComponent | component | Text component or any other component based on it, works great with Icon from react-native-vector-icons | `<Text>+</Text>` |
+| snackOffset | number | The amount by which to move up the FAB to accomodate snackbar | 0 |
 
 ##Note
 
