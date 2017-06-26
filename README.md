@@ -6,7 +6,7 @@ A FAB button component for Android and iOS, customizable, simple and as per mate
 
 See [Google Material Design](https://material.io/guidelines/components/buttons-floating-action-button.html) for more info on FABs.
 
-## Installationhttps://media.giphy.com/media/6oCCk98unakbC/giphy.gif
+## Installation
 
 ```sh
 npm install --save react-native-fab
