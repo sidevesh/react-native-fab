@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   TouchableNativeFeedback,
+  ViewPropTypes,
 } from 'react-native';
 import {
   IS_ANDROID,
@@ -47,7 +48,7 @@ const Touchable = ({ onPress, style, buttonColor, children }) => {
 
 Touchable.propTypes = {
   onPress: PropTypes.func.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   buttonColor: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
