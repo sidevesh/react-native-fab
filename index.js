@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  Platform,
   Text,
-  View,
-  TouchableNativeFeedback,
-  TouchableOpacity,
   Animated,
   Easing,
 } from 'react-native';
@@ -60,7 +56,6 @@ const styles = StyleSheet.create({
 });
 
 export default class FAB extends Component {
-
   static propTypes = {
     buttonColor: PropTypes.string,
     iconTextColor: PropTypes.string,
@@ -155,7 +150,6 @@ export default class FAB extends Component {
       buttonColor,
       iconTextComponent,
       iconTextColor,
-      snackOffset,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
@@ -186,8 +180,8 @@ export default class FAB extends Component {
             <Animated.Text
               style={{
                 transform: [
-                { scaleX: translateValue },
-                { rotate: rotateInterpolate },
+                  { scaleX: translateValue },
+                  { rotate: rotateInterpolate },
                 ],
                 fontSize: 24,
               }}
