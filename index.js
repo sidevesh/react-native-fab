@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Platform,
@@ -24,8 +25,8 @@ const durationValues = {
 
 const moveEasingValues = {
   entry: Easing.bezier(0.0, 0.0, 0.2, 1),
-  exit: Easing.bezier(0.4, 0.0, 1, 1)
-}
+  exit: Easing.bezier(0.4, 0.0, 1, 1),
+};
 
 const styles = StyleSheet.create({
   addButton: {
@@ -66,7 +67,7 @@ export default class FAB extends Component {
     onClickAction: PropTypes.func,
     iconTextComponent: PropTypes.element,
     visible: PropTypes.bool,
-    snackOffset: PropTypes.number
+    snackOffset: PropTypes.number,
   }
 
   static defaultProps = {
@@ -75,12 +76,12 @@ export default class FAB extends Component {
     onClickAction: noop,
     iconTextComponent: <Text>+</Text>,
     visible: true,
-    snackOffset: 0
+    snackOffset: 0,
   };
 
   state = {
     translateValue: new Animated.Value(0),
-    shiftValue: new Animated.Value(0)
+    shiftValue: new Animated.Value(0),
   };
 
   componentDidMount() {
@@ -89,15 +90,13 @@ export default class FAB extends Component {
 
     if (visible) {
       translateValue.setValue(1);
-    }
-    else {
+    } else {
       translateValue.setValue(0);
     }
-    if (snackOffset===0) {
+    if (snackOffset === 0) {
       shiftValue.setValue(20);
-    }
-    else {
-      shiftValue.setValue(20+snackOffset);
+    } else {
+      shiftValue.setValue(20 + snackOffset);
     }
   }
 
@@ -114,8 +113,7 @@ export default class FAB extends Component {
           easing: sharpEasingValues.entry,
         },
       ).start();
-    }
-    else if ((!nextProps.visible) && (visible)) {
+    } else if ((!nextProps.visible) && (visible)) {
       Animated.timing(
         translateValue,
         {
@@ -125,25 +123,24 @@ export default class FAB extends Component {
         },
       ).start();
     }
-    if(nextProps.snackOffset!==this.props.snackOffset) {
-      if(nextProps.snackOffset===0) {
+    if (nextProps.snackOffset !== this.props.snackOffset) {
+      if (nextProps.snackOffset === 0) {
         Animated.timing(
           shiftValue,
           {
             duration: durationValues.exit,
             toValue: 20,
-            easing: moveEasingValues.exit,    
-          }
+            easing: moveEasingValues.exit,
+          },
         ).start();
-      }
-      else if(nextProps.snackOffset!==0) {
+      } else if (nextProps.snackOffset !== 0) {
         Animated.timing(
           shiftValue,
           {
             duration: durationValues.entry,
-            toValue: 20+nextProps.snackOffset,
-            easing: moveEasingValues.entry,    
-          }
+            toValue: 20 + nextProps.snackOffset,
+            easing: moveEasingValues.entry,
+          },
         ).start();
       }
     }
@@ -151,14 +148,14 @@ export default class FAB extends Component {
 
   render() {
     const {
-      translateValue, shiftValue
+      translateValue, shiftValue,
     } = this.state;
     const {
       onClickAction,
       buttonColor,
       iconTextComponent,
       iconTextColor,
-      snackOffset
+      snackOffset,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
@@ -172,7 +169,7 @@ export default class FAB extends Component {
     });
 
     return (
-      <Animated.View style={[styles.fab_box, {bottom: shiftValue}]}>
+      <Animated.View style={[styles.fab_box, { bottom: shiftValue }]}>
         <Animated.View
           style={[
             styles.addButton, {
@@ -198,7 +195,7 @@ export default class FAB extends Component {
               {React.cloneElement(iconTextComponent, { style: {
                 fontSize: 24,
                 color: iconTextColor,
-              }})}
+              } })}
             </Animated.Text>
           </Touchable>
         </Animated.View>
