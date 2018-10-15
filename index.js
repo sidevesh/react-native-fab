@@ -177,7 +177,7 @@ export default class FAB extends Component {
             style={styles.addButtonInnerView}
             buttonColor={buttonColor}
           >
-            <Animated.Text
+            <Animated.View
               style={{
                 transform: [
                   { scaleX: translateValue },
@@ -190,7 +190,7 @@ export default class FAB extends Component {
                 fontSize: 24,
                 color: iconTextColor,
               } })}
-            </Animated.Text>
+            </Animated.View>
           </Touchable>
         </Animated.View>
       </Animated.View>
