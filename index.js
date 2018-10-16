@@ -63,7 +63,8 @@ export default class FAB extends Component {
     iconTextComponent: PropTypes.element,
     visible: PropTypes.bool,
     snackOffset: PropTypes.number,
-  }
+    style: PropTypes.shape,
+  };
 
   static defaultProps = {
     buttonColor: 'red',
@@ -72,6 +73,7 @@ export default class FAB extends Component {
     iconTextComponent: <Text>+</Text>,
     visible: true,
     snackOffset: 0,
+    style: {},
   };
 
   state = {
@@ -150,6 +152,7 @@ export default class FAB extends Component {
       buttonColor,
       iconTextComponent,
       iconTextColor,
+      style,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
@@ -174,7 +177,7 @@ export default class FAB extends Component {
         >
           <Touchable
             onPress={onClickAction}
-            style={styles.addButtonInnerView}
+            style={[styles.addButtonInnerView, style]}
             buttonColor={buttonColor}
           >
             <Animated.View
