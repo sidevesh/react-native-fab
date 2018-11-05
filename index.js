@@ -153,6 +153,7 @@ export default class FAB extends Component {
       buttonColor,
       iconTextComponent,
       iconTextColor,
+      style,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
