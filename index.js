@@ -5,6 +5,7 @@ import {
   Text,
   Animated,
   Easing,
+  ViewPropTypes,
 } from 'react-native';
 import { Touchable } from './src';
 import { noop } from './src/utils';
@@ -63,8 +64,8 @@ export default class FAB extends Component {
     iconTextComponent: PropTypes.element,
     visible: PropTypes.bool,
     snackOffset: PropTypes.number,
-    style: PropTypes.shape,
-  };
+    style: ViewPropTypes.style,
+  }
 
   static defaultProps = {
     buttonColor: 'red',
@@ -73,7 +74,7 @@ export default class FAB extends Component {
     iconTextComponent: <Text>+</Text>,
     visible: true,
     snackOffset: 0,
-    style: {},
+    style:{},
   };
 
   state = {
