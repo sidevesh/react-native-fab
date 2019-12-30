@@ -97,7 +97,7 @@ export default class FAB extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     const { translateValue, shiftValue } = this.state;
     const { visible } = this.props;
 
