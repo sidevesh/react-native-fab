@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  fab_box: {
+  fabContainer: {
     position: 'absolute',
     bottom: 17,
     right: 17,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 50,
   },
-  addButtonInnerView: {
+  addButtonInnerContainer: {
     flex: 1,
     borderRadius: 50,
     alignItems: 'center',
@@ -101,7 +101,7 @@ export default class FAB extends Component {
     const { translateValue, shiftValue } = this.state;
     const { visible } = this.props;
 
-    if ((nextProps.visible) && (!visible)) {
+    if (nextProps.visible && !visible) {
       Animated.timing(
         translateValue,
         {
@@ -110,7 +110,7 @@ export default class FAB extends Component {
           easing: sharpEasingValues.entry,
         },
       ).start();
-    } else if ((!nextProps.visible) && (visible)) {
+    } else if (!nextProps.visible && visible) {
       Animated.timing(
         translateValue,
         {
@@ -166,7 +166,7 @@ export default class FAB extends Component {
     });
 
     return (
-      <Animated.View style={[styles.fab_box, { bottom: shiftValue }]}>
+      <Animated.View style={[styles.fabContainer, { bottom: shiftValue }]}>
         <Animated.View
           style={[
             styles.addButton, {
@@ -177,7 +177,7 @@ export default class FAB extends Component {
         >
           <Touchable
             onPress={onClickAction}
-            style={[styles.addButtonInnerView, style]}
+            style={[styles.addButtonInnerContainer, style]}
             buttonColor={buttonColor}
           >
             <Animated.View
@@ -186,7 +186,6 @@ export default class FAB extends Component {
                   { scaleX: translateValue },
                   { rotate: rotateInterpolate },
                 ],
-                fontSize: 24,
               }}
             >
               {React.cloneElement(iconTextComponent, { style: {
