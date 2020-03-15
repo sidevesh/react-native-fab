@@ -1,6 +1,6 @@
 {
   "name": "react-native-fab",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A FAB button component for Android and iOS, customizable, simple and as per material design specs.",
   "main": "index.js",
   "scripts": {
