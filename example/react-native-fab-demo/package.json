@@ -13,7 +13,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-fab": "file:../..",
-    "react-native-snackbar-component": "^1.1.4",
+    "react-native-snackbar-component": "^1.1.8",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
