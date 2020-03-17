@@ -97,9 +97,10 @@ export default class FAB extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { translateValue, shiftValue } = this.state;
-    const { visible } = this.props;
+    const { visible, snackOffset } = this.props;
 
     if (nextProps.visible && !visible) {
       Animated.timing(
@@ -120,7 +121,7 @@ export default class FAB extends Component {
         },
       ).start();
     }
-    if (nextProps.snackOffset !== this.props.snackOffset) {
+    if (nextProps.snackOffset !== snackOffset) {
       if (nextProps.snackOffset === 0) {
         Animated.timing(
           shiftValue,
@@ -188,10 +189,12 @@ export default class FAB extends Component {
                 ],
               }}
             >
-              {React.cloneElement(iconTextComponent, { style: {
-                fontSize: 24,
-                color: iconTextColor,
-              } })}
+              {React.cloneElement(iconTextComponent, {
+                style: {
+                  fontSize: 24,
+                  color: iconTextColor,
+                },
+              })}
             </Animated.View>
           </Touchable>
         </Animated.View>

@@ -12,7 +12,12 @@ import {
   noop,
 } from './utils';
 
-const Touchable = ({ onPress, style, buttonColor, children }) => {
+const Touchable = ({
+  onPress,
+  style,
+  buttonColor,
+  children,
+}) => {
   if (IS_ANDROID && !IS_LT_LOLLIPOP) {
     return (
       <TouchableNativeFeedback
@@ -31,20 +36,19 @@ const Touchable = ({ onPress, style, buttonColor, children }) => {
       </TouchableNativeFeedback>
     );
   }
-  else {
-    return (
-      <TouchableOpacity
-        onPress={onPress}
-        style={[
-          style, {
-            backgroundColor: buttonColor,
-          },
-        ]}
-      >
-        {children}
-      </TouchableOpacity>
-    );
-  }
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        style, {
+          backgroundColor: buttonColor,
+        },
+      ]}
+    >
+      {children}
+    </TouchableOpacity>
+  );
 };
 
 Touchable.propTypes = {
