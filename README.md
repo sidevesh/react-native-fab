@@ -1,4 +1,4 @@
-# React-Native-FAB
+# react-native-fab
 A FAB button component for Android and iOS, customizable, simple and as per material design specs.
 
 ![FAB demo](https://media.giphy.com/media/eUa3ywxwoBwwE/giphy.gif)
@@ -36,4 +36,4 @@ import FAB from 'react-native-fab'
 ## Note
 
 * When visible prop is changed, the FAB will be animated in/out of screen. 
-* This works great together with [react-native-snackbar-component](https://github.com/SiDevesh/React-Native-SnackBar-Component). See [demo](https://github.com/SiDevesh/snackbar-and-fab-demo) for example and instructions how to.
+* This works great together with [react-native-snackbar-component](https://github.com/sidevesh/react-native-snackbar-component). See [demo](https://github.com/sidevesh/snackbar-and-fab-demo) for example and instructions how to.
