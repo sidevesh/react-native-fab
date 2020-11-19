@@ -109,6 +109,7 @@ export default class FAB extends Component {
           duration: durationValues.entry,
           toValue: 1,
           easing: sharpEasingValues.entry,
+          useNativeDriver: false,
         },
       ).start();
     } else if (!nextProps.visible && visible) {
@@ -118,6 +119,7 @@ export default class FAB extends Component {
           duration: durationValues.exit,
           toValue: 0,
           easing: sharpEasingValues.exit,
+          useNativeDriver: false,
         },
       ).start();
     }
@@ -129,6 +131,7 @@ export default class FAB extends Component {
             duration: durationValues.exit,
             toValue: 20,
             easing: moveEasingValues.exit,
+            useNativeDriver: false,
           },
         ).start();
       } else if (nextProps.snackOffset !== 0) {
@@ -138,6 +141,7 @@ export default class FAB extends Component {
             duration: durationValues.entry,
             toValue: 20 + nextProps.snackOffset,
             easing: moveEasingValues.entry,
+            useNativeDriver: false,
           },
         ).start();
       }
